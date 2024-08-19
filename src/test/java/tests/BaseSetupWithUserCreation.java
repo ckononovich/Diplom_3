@@ -15,24 +15,23 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import static io.restassured.RestAssured.given;
 
 public abstract class BaseSetupWithUserCreation {
-    DataForTests dataForTests = new DataForTests();
-    Path path = new Path();
-
     WebDriver driver;
+    private final DataForTests dataForTests = new DataForTests();
+    private final Path path = new Path();
 
     @Before
     public void generalSetUp() {
-        if ("yandex".equals(System.getProperty("yandex"))) {
-            browserYandex();
+        if ("yandex".equals(System.getProperty("driverType"))) {
+            browserYandex(System.getProperty("pathYandexDriver"), System.getProperty("yandexBrowser"));
         } else {
             browserChrome();
         }
         driver.get("https://stellarburgers.nomoreparties.site/");
     }
 
-    private void browserYandex() {
-        System.setProperty("webdriver.chrome.driver", "C:/Program Files (x86)/WebDriver/bin/yandexdriver.exe");
-        ChromeOptions options = new ChromeOptions().setBinary("C:/Users/2306k/AppData/Local/Yandex/YandexBrowser/Application/browser.exe");
+    private void browserYandex(String pathYandexDriver, String yandexBrowser) {
+        System.setProperty("webdriver.chrome.driver", pathYandexDriver);
+        ChromeOptions options = new ChromeOptions().setBinary(yandexBrowser);
         driver = new ChromeDriver(options);
     }
 
